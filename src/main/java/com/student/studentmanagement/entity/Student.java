@@ -1,19 +1,25 @@
-package com.student.studentmanagement.dto;
+package com.student.studentmanagement.entity;
 
-public class StudentDto {
+import jakarta.persistence.*;
+
+@Entity
+@Table
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
     private String studentName;
     private String department;
     private String course;
 
-    public StudentDto(Long id, String studentName, String department, String course) {
+    public Student() {
+    }
+
+    public Student(Long id, String studentName, String department, String course) {
         Id = id;
         this.studentName = studentName;
         this.department = department;
         this.course = course;
-    }
-
-    public StudentDto() {
     }
 
     public Long getId() {

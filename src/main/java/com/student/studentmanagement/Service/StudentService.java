@@ -1,34 +1,25 @@
 package com.student.studentmanagement.Service;
 
 import com.student.studentmanagement.dto.StudentDto;
+import com.student.studentmanagement.entity.Student;
 import com.student.studentmanagement.repository.StudentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class StudentService implements StudentRepository {
+public class StudentService  {
 
-    private final List<StudentDto> list = new ArrayList<>();
-    @Override
-    public StudentDto create(StudentDto student) {
-        StudentDto std = new StudentDto();
-        std.setId(student.getId());
-        std.setStudentName(student.getStudentName());
-        std.setDepartment(student.getDepartment());
-        std.setCourse(student.getCourse());
-        list.add(std);
-        return std;
+    @Autowired
+    private StudentRepository studentRepository;
+
+    public List<Student> getAllStudents() {
+        return studentRepository.findAll();
     }
 
-    @Override
-    public List<StudentDto> getAllStudent() {
-        return list;
-    }
+    public Student createStudent(Student student) { return studentRepository.save(student); }
 
-    @Override
-    public StudentDto getStudentById(int id) {
-       return null;
-    }
+
+
 }
