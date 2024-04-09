@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/student")
+@RestControllerAdvice
 public class StudentController {
 
     @Autowired
@@ -21,6 +22,7 @@ public class StudentController {
     @Autowired
     private StudentDecoratorService studentDecoratorService;
 
+    @ExceptionHandler(Exception.class)
     @GetMapping
     public ResponseEntity<List<Student>> getAllStudents() {
         List<Student> students = studentService.getAllStudents();
@@ -55,15 +57,20 @@ public class StudentController {
 
     @GetMapping("studentName/{name}")
     public ResponseEntity<Student> getStudentByName(@PathVariable("name") String name) {
-        Optional<Student> student = studentService.getStudentByName(name);
-        if (student.isPresent()) {
-            return new ResponseEntity<>(student.get(), HttpStatus.OK);
+        try {
+            Optional<Student> student = studentService.getStudentByName(name);
+            if (student.isPresent()) {
+                return new ResponseEntity<>(student.get(), HttpStatus.OK);
+            }
+
+        } catch(Exception e) {
+            
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("studentEmailAddress/{emailAddress}")
-    public ResponseEntity<Student> getStudentByEmailAddress(@PathVariable("emailAddress") String emailAddress) {
+    public ResponseEntity<Student> getStudentByEmailAddress(@PathVariable("emailAddress") String emailAddress) throws Exception {
         Optional<Student> student = studentDecoratorService.getStudentByStudentEmailAddress(emailAddress);
         if (student.isPresent()) {
             return new ResponseEntity<>(student.get(), HttpStatus.OK);
