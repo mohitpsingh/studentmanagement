@@ -1,5 +1,6 @@
 package com.student.studentmanagement.controller;
 
+import com.student.studentmanagement.Service.StudentDecoratorService;
 import com.student.studentmanagement.Service.StudentService;
 import com.student.studentmanagement.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class StudentController {
 
     @Autowired
     private StudentService studentService;
+
+    @Autowired
+    private StudentDecoratorService studentDecoratorService;
 
     @GetMapping
     public ResponseEntity<List<Student>> getAllStudents() {
@@ -58,6 +62,13 @@ public class StudentController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-
+    @GetMapping("studentEmailAddress/{emailAddress}")
+    public ResponseEntity<Student> getStudentByEmailAddress(@PathVariable("emailAddress") String emailAddress) {
+        Optional<Student> student = studentDecoratorService.getStudentByStudentEmailAddress(emailAddress);
+        if (student.isPresent()) {
+            return new ResponseEntity<>(student.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
 }
