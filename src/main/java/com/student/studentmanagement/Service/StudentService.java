@@ -2,6 +2,7 @@ package com.student.studentmanagement.Service;
 
 import com.student.studentmanagement.entity.Student;
 import com.student.studentmanagement.repository.StudentRepository;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,11 @@ public class StudentService  {
 
     public Student saveStudent(Student student) {
         return studentRepository.save(student);
+    }
+
+    @PostConstruct
+    public void init() {
+        System.out.println("Employee Service initialized!");
     }
 
     public Optional<Student> getStudentById(Long id) {
